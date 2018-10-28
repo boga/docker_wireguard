@@ -1,10 +1,36 @@
-FROM debian:9-slim
-LABEL maintainer="Ivan Shnurchenko <ivan.shnurchenko@gmail.com>"
+FROM alpine:edge
 
-RUN echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable.list \
- && printf 'Package: *\nPin: release a=unstable\nPin-Priority: 150\n' > /etc/apt/preferences.d/limit-unstable \
- && apt-get update -y
-RUN apt-get install -y wireguard
+# ARG WG_VER
+
+RUN echo "ipv6" >> /etc/modules
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN apk add -U wireguard-tools
+
+CMD ["sh"]
+
+
+# FROM alpine:3.8
+
+# ARG WG_VER
+
+# RUN apk update
+# RUN apk add --no-cache build-base linux-vanilla-dev libmnl-dev bash
+
+# RUN wget https://git.zx2c4.com/WireGuard/snapshot/WireGuard-${WG_VER}.tar.xz
+# RUN tar xf ./WireGuard-${WG_VER}.tar.xz
+# RUN cd ./WireGuard-${WG_VER}/src/ && make
+
+# CMD ["sh"]
+
+
+
+# FROM debian:9-slim
+# LABEL maintainer="Ivan Shnurchenko <ivan.shnurchenko@gmail.com>"
+
+# RUN echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable.list \
+#  && printf 'Package: *\nPin: release a=unstable\nPin-Priority: 150\n' > /etc/apt/preferences.d/limit-unstable \
+#  && apt-get update -y
+# RUN apt-get install -y wireguard
 
 
 #RUN cd WireGuard/src && make
@@ -48,4 +74,4 @@ RUN apt-get install -y wireguard
 
 # USER phpuser
 
-CMD ["wireguard"]
+# CMD ["wireguard"]
